@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?><!-- sample_menu.xml -->
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/auto_open"
+        android:title="Lazy mode: off"
+        app:showAsAction="ifRoom" />
+<!--    <item-->
+<!--        android:id="@+id/auto_close"-->
+<!--        android:title="自动滚动关"-->
+<!--        app:showAsAction="ifRoom" />-->
+
+
+    <!--    <item-->
+    <!--        android:id="@+id/action_done"-->
+    <!--        android:icon="@drawable/ic_done"-->
+    <!--        android:title="@string/done"-->
+    <!--        app:showAsAction="ifRoom|withText"/>-->
+</menu>

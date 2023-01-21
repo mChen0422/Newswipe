@@ -7,5 +7,5 @@
 
 Demo:
 
-![](https://github.com/mChen0422/Newswipe/blob/main/demo.gif)
+![](https://github.com/mChen0422/Newswipe/blob/main/Demo.gif)
 

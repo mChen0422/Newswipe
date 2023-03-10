@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,14 +15,19 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.meitong.newswipe.R;
 import com.meitong.newswipe.databinding.FragmentSaveBinding;
 import com.meitong.newswipe.model.Article;
 import com.meitong.newswipe.repository.NewsRepository;
 import com.meitong.newswipe.repository.NewsViewModelFactory;
+import com.meitong.newswipe.util.LogUtils;
+import com.meitong.newswipe.util.ShareUtil;
 
-public class SaveFragment extends Fragment implements SavedNewsAdapter.ItemCallback {
+
+public class SaveFragment extends Fragment {
     private FragmentSaveBinding binding;
     private SaveViewModel viewModel;
+    private Article myArticle;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,14 +51,20 @@ public class SaveFragment extends Fragment implements SavedNewsAdapter.ItemCallb
         adapter.setItemCallback(new SavedNewsAdapter.ItemCallback() {
             @Override
             public void onOpenDetails(Article article) {
-               SaveFragmentDirections.ActionNavigationSaveToNavigationDetails direction =
-                       SaveFragmentDirections.actionNavigationSaveToNavigationDetails(article);
-               NavHostFragment.findNavController(SaveFragment.this).navigate(direction);
+                SaveFragmentDirections.ActionNavigationSaveToNavigationDetails direction =
+                        SaveFragmentDirections.actionNavigationSaveToNavigationDetails(article);
+                NavHostFragment.findNavController(SaveFragment.this).navigate(direction);
             }
 
             @Override
             public void onRemoveFavorite(Article article) {
                 viewModel.deleteSavedArticle(article);
+            }
+
+            @Override
+            public void onLongItem(View view1, Article article) {
+                myArticle = article;
+                myPopupMenu(view1);
             }
         });
 //        adapter.setItemCallback(this);
@@ -76,16 +89,6 @@ public class SaveFragment extends Fragment implements SavedNewsAdapter.ItemCallb
         viewModel.deleteSavedArticle(article);
     }
 
-    @Override
-    public void onOpenDetails(Article article) {
-
-    }
-
-    @Override
-    public void onRemoveFavorite(Article article) {
-        // 和anonymous 相同
-    }
-
 
 //    public class InnerClass implements SavedNewsAdapter.ItemCallback {
 //
@@ -99,4 +102,25 @@ public class SaveFragment extends Fragment implements SavedNewsAdapter.ItemCallb
 //
 //        }
 //    }
+
+    private void myPopupMenu(View v) {
+        //定义PopupMenu对象
+        PopupMenu popupMenu = new PopupMenu(getActivity(), v);
+        //设置PopupMenu对象的布局
+        popupMenu.getMenuInflater().inflate(R.menu.app_menus, popupMenu.getMenu());
+        //设置PopupMenu的点击事件
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if (item.getItemId() == R.id.share) {
+                    ShareUtil.share(myArticle.url);
+                } else if (item.getItemId() == R.id.delete) {
+                    viewModel.deleteSavedArticle(myArticle);
+                }
+                return true;
+            }
+        });
+        //显示菜单
+        popupMenu.show();
+    }
 }

@@ -44,6 +44,7 @@ public class SavedNewsAdapter extends RecyclerView.Adapter<SavedNewsAdapter.Save
     interface ItemCallback {
         void onOpenDetails(Article article);
         void onRemoveFavorite(Article article);
+        void onLongItem(View view,Article article);
     }
 
     private ItemCallback itemCallback;
@@ -74,6 +75,13 @@ public class SavedNewsAdapter extends RecyclerView.Adapter<SavedNewsAdapter.Save
         });
         holder.itemView.setOnClickListener(v -> {
             itemCallback.onOpenDetails(article);
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                itemCallback.onLongItem(view,article);
+                return false;
+            }
         });
     }
 

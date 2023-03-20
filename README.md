@@ -1,4 +1,4 @@
-# SwipeNews
+# Newswipe
 
 1. Developed an Android app with Java using the MVVM Google Component Architecture, featuring hot news display, keyword-based news search, news saving, and lazy mode which enables scrolling news automatically
 2. Implemented swipe gestures for liking/disliking news using CardStackView open-source project, similar to the Tinder app
